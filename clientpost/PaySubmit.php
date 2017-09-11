@@ -15,8 +15,11 @@ class PaySubmit
 
     public $post_url = "https://www.paydollar.com/b2c2/eng/payment/payForm.jsp";
 
-    public function __construct($pay_config)
+    public function __construct($pay_config, $debug=false)
     {
+        if ($debug) {
+            $this->post_url = "https://test.paydollar.com/b2cDemo/eng/payment/payForm.jsp";
+        }
         $this->pay_config = $pay_config;
     }
 

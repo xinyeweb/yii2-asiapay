@@ -13,6 +13,9 @@ use Yii;
 
 class AsiaPayClient
 {
+    public $secret;
+    public $debug;
+
     public $merchantId;
     //public $orderRef;//'商家訂單編號'
     public $currCode;
@@ -76,8 +79,10 @@ class AsiaPayClient
     // 840 – “US”
     // +------------------------------------------------------------------------
 
-    public function __construct($merchantId, $currCode="446", $paymentType="N", $mpsMode="NIL", $payMethod="ALL", $lang="C")
+    public function __construct($merchantId, $debug=false, $secret=null, $currCode="446", $paymentType="N", $mpsMode="NIL", $payMethod="ALL", $lang="C")
     {
+        $this->debug = $debug;
+        $this->secret = is_null($secret) ? md5('WJISC_ASIA_PAY') : $secret;
         $this->merchantId = $merchantId;
         $this->currCode = $currCode;
         $this->paymentType = $paymentType;
@@ -114,7 +119,7 @@ class AsiaPayClient
             'destCountry' => $destCountry
         ];
 
-        $submit = new PaySubmit($pay_config);
+        $submit = new PaySubmit($pay_config, $this->debug);
         echo $submit->buildRequestForm();
     }
 }
